@@ -1,0 +1,23 @@
+/* Make sure html & body take full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main wrapper will make footer push to bottom */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Footer style */
+footer {
+  background-color: #0B1F3A;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-family: Arial, sans-serif;
+  margin-top: auto; /* This pushes footer to bottom */
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/header.css">
+  <link rel="stylesheet" href="/footer.css">
+  <style>
+    main { padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background: #f4f4f4; }
+    tr:nth-child(even) { background: #fafafa; }
+    .action-btn {
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+    .reply-btn {
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .action-cell {
+      display: flex;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo"><h2>Furious</h2></div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/service">Service</a></li>
+        <li><a href="/client">Client</a></li>
+        <li><a href="/about">About Us</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+        <li><a href="/admin/dashboard">Admin</a></li>
+        <li><a href="/admin/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Welcome to Admin Dashboard</h1>
+    <h2>Contact Form Submissions</h2>
+    
+    <% if (Array.isArray(messages) && messages.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% messages.forEach(msg => { %>
+            <tr>
+              <td><%= msg.name %></td>
+              <td><%= msg.email %></td>
+              <td><%= msg.mobile %></td>
+              <td><%= msg.message %></td>
+              <td>
+                <%= msg.date ? new Date(msg.date).toLocaleString() : '' %>
+              </td>
+              <td class="action-cell">
+                <!-- Reply button -->
+                <a href="mailto:<%= msg.email %>?subject=Regarding your contact form submission&body=Hello <%= msg.name %>,"
+                   class="action-btn reply-btn">Reply</a>
+
+                <!-- Delete button -->
+                <form action="/admin/delete/<%= msg.id %>" method="POST" style="margin:0;">
+                  <button type="submit" class="action-btn delete-btn">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No messages found.</p>
+    <% } %>
+  </main>
+
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> Furious Networks Services Pvt. Ltd. </p>
+  </footer>
+</body>
+</html>
